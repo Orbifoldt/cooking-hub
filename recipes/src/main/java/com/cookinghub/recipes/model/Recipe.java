@@ -2,6 +2,9 @@ package com.cookinghub.recipes.model;
 
 import java.util.List;
 
+/**
+ *
+ */
 public interface Recipe {
 
     String getName();

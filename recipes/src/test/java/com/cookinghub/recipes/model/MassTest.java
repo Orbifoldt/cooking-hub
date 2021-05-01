@@ -4,10 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.util.Locale;
-
 public class MassTest {
 
     private static final double delta = 1e-6;
