@@ -1,5 +1,6 @@
 package com.cookinghub.recipes.controller;
 
+import com.cookinghub.recipes.model.Recipe;
 import com.cookinghub.recipes.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +19,8 @@ public class RecipesController {
     }
 
     @RequestMapping("/yep")
-    public String page2(@RequestParam(name="id") long recipeId) {
-        return recipeService.getRecipe(recipeId).toString();
+    public Object page2(@RequestParam(name="id") long recipeId) {
+        Recipe recipe = recipeService.getRecipe(recipeId);
+        return recipe;
     }
 }

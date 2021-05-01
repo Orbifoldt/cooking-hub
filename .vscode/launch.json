@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-Application<recipes>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.cookinghub.recipes.service.Application",
+            "projectName": "recipes",
+            "args": ""
+        }
+    ]
+}
