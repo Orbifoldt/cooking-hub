@@ -1,6 +1,6 @@
 -- SQL dump generated using DBML (dbml-lang.org)
 -- Database: PostgreSQL
--- Generated at: 2021-05-04T18:22:48.725Z
+-- Generated at: 2021-05-04T18:43:17.635Z
 
 CREATE TYPE "unit_type" AS ENUM (
   'mass',
@@ -11,19 +11,19 @@ CREATE TYPE "unit_type" AS ENUM (
 CREATE TABLE "recipes" (
   "id" SERIAL UNIQUE PRIMARY KEY NOT NULL,
   "name" varchar,
-  "created_at" datetime DEFAULT (now())
+  "created_at" timestamp DEFAULT (now())
 );
 
 CREATE TABLE "ingredient" (
   "id" SERIAL UNIQUE PRIMARY KEY,
   "name" varchar(255),
-  "density" double DEFAULT null
+  "density" real DEFAULT null
 );
 
 CREATE TABLE "recipe_ingredient" (
   "recipe_id" int NOT NULL,
   "ingredient_id" int NOT NULL,
-  "amount" double NOT NULL,
+  "amount" real NOT NULL,
   "type" unit_type NOT NULL,
   "notes" varchar,
   PRIMARY KEY ("recipe_id")
