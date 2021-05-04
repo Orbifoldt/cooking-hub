@@ -1,0 +1,60 @@
+Project recipe_hub {
+  database_type: 'PostgreSQL'
+  Note: 'Description of the project'
+}
+
+
+Table recipes {
+  id int [pk, unique, increment, not null]
+  name varchar
+  created_at datetime [default: `now()`]
+  
+  Indexes{
+    id
+    name
+    created_at
+  }
+}
+
+Table ingredient {
+  id int [pk, unique, increment]
+  name varchar(255)
+  density double [default: null]
+  
+  Indexes{
+    id
+    name
+  }
+}
+
+Table recipe_ingredient as RI {
+  recipe_id int [not null, ref: > recipes.id]
+  ingredient_id int [not null, ref: > ingredient.id]
+  amount double [not null]
+  type unit_type [not null]
+  notes varchar
+  Note: 'Stores ingredient and amount pairs for a recipe'
+  
+  Indexes {
+    recipe_id [pk]
+  }
+}
+
+
+Table instructions {
+  id int [pk, unique, increment]
+  recipe_id int [not null, ref: > recipes.id]
+  ordinal int [not null, note: 'n-th instruction in recipe']
+  instruction varchar
+}
+
+
+
+Enum unit_type{
+  mass
+  volume
+  other
+}
+
+
+
