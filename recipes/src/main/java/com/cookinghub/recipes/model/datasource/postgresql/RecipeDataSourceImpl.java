@@ -22,9 +22,25 @@ public class RecipeDataSourceImpl implements RecipeDataSource {
     private final String UPDATE_RECIPE = "UPDATE recipes SET name=? WHERE id=?";
     private final String UPDATE_INGREDIENT = "UPDATE ingredients SET name=?, density=? WHERE id=?";
     private final String UPDATE_RECIPE_INGREDIENT = "UPDATE recipe_ingredients SET ingredient_id=?, amount=?, type=CAST(? AS unit_type), notes=? WHERE recipe_id=? AND ordinal=?";
+    private final String UPDATE_RECIPE_INSTRUCTION = "UPDATE instructions SET ordinal=?, instruction=? WHERE recipe_id=?";
+
+    private final String GET_RECIPE = "SELECT name, created_at FROM recipes WHERE id=?";
+    private final String GET_INGREDIENT = "SELECT name, density FROM ingredients WHERE id=?";
+    private final String GET_RECIPE_INGREDIENTS = "SELECT ordinal, ingredient_id, amount, type, notes FROM recipe_ingredients WHERE recipe_id=?";
+    private final String GET_RECIPE_INSTRUCTIONS = "SELECT ordinal, instruction FROM instructions WHERE recipe_id=?";
+
+    private final String DELETE_RECIPE = "DELETE FROM recipes WHERE id=?";
+    private final String DELETE_INGREDIENT = "DELETE FROM ingredients WHERE id=?";
+    private final String DELETE_RECIPE_INGREDIENT = "DELETE FROM recipe_ingredients WHERE recipe_id=? AND ordinal=?";
+    private final String DELETE_RECIPE_INSTRUCTION = "DELETE FROM instructions WHERE recipe_id=? AND ordinal=?";
 
     @Override
     public Recipe getRecipe(long id) {
+        return null;
+    }
+
+    @Override
+    public Ingredient getIngredient(long id) {
         return null;
     }
 
@@ -139,7 +155,15 @@ public class RecipeDataSourceImpl implements RecipeDataSource {
 
     @Override
     public void updateRecipeInstruction(RecipeInstruction recipeInstruction) {
-        // TODO
+        try(Connection conn = connectionManager.getConnection();
+            PreparedStatement pst = conn.prepareStatement(UPDATE_RECIPE_INSTRUCTION)) {
+            pst.setInt(1, recipeInstruction.getOrdinal());
+            pst.setString(2, recipeInstruction.getInstruction());
+            pst.setLong(3, recipeInstruction.getRecipeId());
+            pst.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 

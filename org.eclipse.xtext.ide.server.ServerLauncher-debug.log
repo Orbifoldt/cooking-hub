@@ -324,3 +324,411 @@ Params: {
 
 
 DSL file does not contain views. Probably imported views.
+[Trace - 11:24:21 a.m.] Received request 'textDocument/codeAction - (1)'
+Params: {
+  "textDocument": {
+    "uri": "file:///f%3A/Jeroen/Dropbox/Spring%20test%20project/cooking-hub/design-documents/architecture/recipes-hub.dsl"
+  },
+  "range": {
+    "start": {
+      "line": 0,
+      "character": 0
+    },
+    "end": {
+      "line": 0,
+      "character": 0
+    }
+  },
+  "context": {
+    "diagnostics": []
+  }
+}
+
+
+[Trace - 11:24:21 a.m.] Received request 'textDocument/documentSymbol - (2)'
+Params: {
+  "textDocument": {
+    "uri": "file:///f%3A/Jeroen/Dropbox/Spring%20test%20project/cooking-hub/design-documents/architecture/recipes-hub.dsl"
+  }
+}
+
+
+[Trace - 11:24:21 a.m.] Sending response 'textDocument/codeAction - (1)'. Processing request took 25ms
+Result: []
+
+
+[Trace - 11:24:21 a.m.] Sending response 'textDocument/documentSymbol - (2)'. Processing request took 38ms
+Result: [
+  {
+    "name": "user",
+    "kind": 7,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 8
+      },
+      "end": {
+        "line": 2,
+        "character": 28
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 8
+      },
+      "end": {
+        "line": 2,
+        "character": 12
+      }
+    },
+    "detail": "",
+    "deprecated": false,
+    "children": []
+  },
+  {
+    "name": "wa",
+    "kind": 7,
+    "range": {
+      "start": {
+        "line": 5,
+        "character": 12
+      },
+      "end": {
+        "line": 5,
+        "character": 52
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 5,
+        "character": 12
+      },
+      "end": {
+        "line": 5,
+        "character": 14
+      }
+    },
+    "detail": "",
+    "deprecated": false,
+    "children": []
+  },
+  {
+    "name": "db",
+    "kind": 7,
+    "range": {
+      "start": {
+        "line": 6,
+        "character": 12
+      },
+      "end": {
+        "line": 6,
+        "character": 50
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 6,
+        "character": 12
+      },
+      "end": {
+        "line": 6,
+        "character": 14
+      }
+    },
+    "detail": "",
+    "deprecated": false,
+    "children": []
+  },
+  {
+    "name": "api",
+    "kind": 7,
+    "range": {
+      "start": {
+        "line": 7,
+        "character": 12
+      },
+      "end": {
+        "line": 7,
+        "character": 63
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 7,
+        "character": 12
+      },
+      "end": {
+        "line": 7,
+        "character": 15
+      }
+    },
+    "detail": "",
+    "deprecated": false,
+    "children": []
+  }
+]
+
+
+[Trace - 11:24:22 a.m.] Received request 'textDocument/codeAction - (3)'
+Params: {
+  "textDocument": {
+    "uri": "file:///f%3A/Jeroen/Dropbox/Spring%20test%20project/cooking-hub/design-documents/architecture/recipes-hub.dsl"
+  },
+  "range": {
+    "start": {
+      "line": 14,
+      "character": 5
+    },
+    "end": {
+      "line": 14,
+      "character": 5
+    }
+  },
+  "context": {
+    "diagnostics": []
+  }
+}
+
+
+[Trace - 11:24:22 a.m.] Sending response 'textDocument/codeAction - (3)'. Processing request took 1ms
+Result: []
+
+
+[Trace - 11:24:22 a.m.] Received request 'textDocument/codeLens - (4)'
+Params: {
+  "textDocument": {
+    "uri": "file:///f%3A/Jeroen/Dropbox/Spring%20test%20project/cooking-hub/design-documents/architecture/recipes-hub.dsl"
+  }
+}
+
+
+[Trace - 11:24:22 a.m.] Sending response 'textDocument/codeLens - (4)'. Processing request took 3ms
+Result: []
+
+
+[Trace - 11:24:22 a.m.] Received request 'textDocument/documentSymbol - (5)'
+Params: {
+  "textDocument": {
+    "uri": "file:///f%3A/Jeroen/Dropbox/Spring%20test%20project/cooking-hub/design-documents/architecture/recipes-hub.dsl"
+  }
+}
+
+
+[Trace - 11:24:22 a.m.] Received notification '$/cancelRequest'
+Params: {
+  "id": 5
+}
+
+
+[Trace - 11:24:22 a.m.] Sending response 'textDocument/documentSymbol - (5)'. Processing request took 8ms
+Result: null
+
+
+[Trace - 01:49:15 p.m.] Received request 'textDocument/codeAction - (6)'
+Params: {
+  "textDocument": {
+    "uri": "file:///f%3A/Jeroen/Dropbox/Spring%20test%20project/cooking-hub/design-documents/architecture/recipes-hub.dsl"
+  },
+  "range": {
+    "start": {
+      "line": 0,
+      "character": 0
+    },
+    "end": {
+      "line": 0,
+      "character": 0
+    }
+  },
+  "context": {
+    "diagnostics": []
+  }
+}
+
+
+[Trace - 01:49:15 p.m.] Received request 'textDocument/documentSymbol - (7)'
+Params: {
+  "textDocument": {
+    "uri": "file:///f%3A/Jeroen/Dropbox/Spring%20test%20project/cooking-hub/design-documents/architecture/recipes-hub.dsl"
+  }
+}
+
+
+[Trace - 01:49:15 p.m.] Sending response 'textDocument/codeAction - (6)'. Processing request took 39ms
+Result: []
+
+
+[Trace - 01:49:15 p.m.] Sending response 'textDocument/documentSymbol - (7)'. Processing request took 46ms
+Result: [
+  {
+    "name": "user",
+    "kind": 7,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 8
+      },
+      "end": {
+        "line": 2,
+        "character": 28
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 8
+      },
+      "end": {
+        "line": 2,
+        "character": 12
+      }
+    },
+    "detail": "",
+    "deprecated": false,
+    "children": []
+  },
+  {
+    "name": "wa",
+    "kind": 7,
+    "range": {
+      "start": {
+        "line": 5,
+        "character": 12
+      },
+      "end": {
+        "line": 5,
+        "character": 52
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 5,
+        "character": 12
+      },
+      "end": {
+        "line": 5,
+        "character": 14
+      }
+    },
+    "detail": "",
+    "deprecated": false,
+    "children": []
+  },
+  {
+    "name": "db",
+    "kind": 7,
+    "range": {
+      "start": {
+        "line": 6,
+        "character": 12
+      },
+      "end": {
+        "line": 6,
+        "character": 50
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 6,
+        "character": 12
+      },
+      "end": {
+        "line": 6,
+        "character": 14
+      }
+    },
+    "detail": "",
+    "deprecated": false,
+    "children": []
+  },
+  {
+    "name": "api",
+    "kind": 7,
+    "range": {
+      "start": {
+        "line": 7,
+        "character": 12
+      },
+      "end": {
+        "line": 7,
+        "character": 63
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 7,
+        "character": 12
+      },
+      "end": {
+        "line": 7,
+        "character": 15
+      }
+    },
+    "detail": "",
+    "deprecated": false,
+    "children": []
+  }
+]
+
+
+[Trace - 01:49:15 p.m.] Received request 'textDocument/codeAction - (8)'
+Params: {
+  "textDocument": {
+    "uri": "file:///f%3A/Jeroen/Dropbox/Spring%20test%20project/cooking-hub/design-documents/architecture/recipes-hub.dsl"
+  },
+  "range": {
+    "start": {
+      "line": 14,
+      "character": 5
+    },
+    "end": {
+      "line": 14,
+      "character": 5
+    }
+  },
+  "context": {
+    "diagnostics": []
+  }
+}
+
+
+[Trace - 01:49:15 p.m.] Sending response 'textDocument/codeAction - (8)'. Processing request took 2ms
+Result: []
+
+
+[Trace - 01:49:15 p.m.] Received request 'textDocument/codeLens - (9)'
+Params: {
+  "textDocument": {
+    "uri": "file:///f%3A/Jeroen/Dropbox/Spring%20test%20project/cooking-hub/design-documents/architecture/recipes-hub.dsl"
+  }
+}
+
+
+[Trace - 01:49:15 p.m.] Sending response 'textDocument/codeLens - (9)'. Processing request took 2ms
+Result: []
+
+
+[Trace - 01:49:16 p.m.] Received request 'textDocument/documentSymbol - (10)'
+Params: {
+  "textDocument": {
+    "uri": "file:///f%3A/Jeroen/Dropbox/Spring%20test%20project/cooking-hub/design-documents/architecture/recipes-hub.dsl"
+  }
+}
+
+
+[Trace - 01:49:16 p.m.] Received notification '$/cancelRequest'
+Params: {
+  "id": 10
+}
+
+
+[Trace - 01:49:16 p.m.] Sending response 'textDocument/documentSymbol - (10)'. Processing request took 2ms
+Result: null
+
+
+[Trace - 09:15:55 p.m.] Received notification '$/setTraceNotification'
+Params: {
+  "value": "off"
+}
+
+

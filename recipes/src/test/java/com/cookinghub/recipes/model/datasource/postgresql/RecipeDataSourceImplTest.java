@@ -1,9 +1,6 @@
 package com.cookinghub.recipes.model.datasource.postgresql;
 
-import com.cookinghub.recipes.model.recipes.Ingredient;
-import com.cookinghub.recipes.model.recipes.Recipe;
-import com.cookinghub.recipes.model.recipes.SimpleIngredient;
-import com.cookinghub.recipes.model.recipes.Unit;
+import com.cookinghub.recipes.model.recipes.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,7 +57,13 @@ public class RecipeDataSourceImplTest {
     }
 
     @Test
-    public void storeNewRecipeInstruction(){
+    public void storeNewRecipeInstructionTest(){
         recipeDataSource.storeNewRecipeInstruction(1,1,"It puts the lotion on its skin.");
+    }
+
+    @Test
+    public void updateRecipeInstructionTest(){
+        RecipeInstruction instruction = new RecipeInstruction(1,1,"EDIT: It puts the lotion on its skin.");
+
     }
 }

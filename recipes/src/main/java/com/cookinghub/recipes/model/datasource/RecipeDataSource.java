@@ -3,12 +3,13 @@ package com.cookinghub.recipes.model.datasource;
 import com.cookinghub.recipes.model.recipes.*;
 
 public interface RecipeDataSource {
+
     Recipe getRecipe(long id);
 
-    /**
-     * Create a new entry in the recipes table
-     * @return id of the new recipe in the database
-     */
+    Ingredient getIngredient(long id);
+
+
+
     Recipe storeNewRecipe();
     
     void updateRecipe(Recipe recipe);
