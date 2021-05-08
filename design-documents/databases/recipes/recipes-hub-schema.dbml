@@ -3,58 +3,61 @@ Project recipe_hub {
   Note: 'DB structure for holding recipes'
 }
 
+Enum unit_type{
+  MASS
+  VOLUME
+  OTHER
+}
+
 
 Table recipes {
-  id int [pk, unique, increment, not null]
+  id int [increment]
   name varchar
   created_at timestamp [default: `now()`]
   
   Indexes{
-    id
+    id [pk]
     name
     created_at
   }
 }
 
-Table ingredient {
-  id int [pk, unique, increment]
+Table ingredients {
+  id int [increment]
   name varchar(255)
   density real [default: null]
   
   Indexes{
-    id
+    id [pk] 
     name
   }
 }
 
-Table recipe_ingredient as RI {
+Table recipe_ingredients as RI {
   recipe_id int [not null, ref: > recipes.id]
-  ingredient_id int [not null, ref: > ingredient.id]
+  ordinal int [not null, note: 'n-th ingredient in recipe']
+  ingredient_id int [not null, ref: > ingredients.id]
   amount real [not null]
   type unit_type [not null]
   notes varchar
   Note: 'Stores ingredient and amount pairs for a recipe'
   
   Indexes {
-    recipe_id [pk]
+    (recipe_id, ordinal) [pk]
+    recipe_id
+    ingredient_id
   }
 }
 
 
 Table instructions {
-  id int [pk, unique, increment]
   recipe_id int [not null, ref: > recipes.id]
   ordinal int [not null, note: 'n-th instruction in recipe']
   instruction varchar
+
+  Indexes {
+    (recipe_id, ordinal) [pk]
+    recipe_id
+  }
 }
-
-
-
-Enum unit_type{
-  mass
-  volume
-  other
-}
-
-
 

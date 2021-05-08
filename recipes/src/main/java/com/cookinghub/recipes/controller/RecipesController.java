@@ -1,6 +1,6 @@
 package com.cookinghub.recipes.controller;
 
-import com.cookinghub.recipes.model.Recipe;
+import com.cookinghub.recipes.model.recipes.Recipe;
 import com.cookinghub.recipes.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;

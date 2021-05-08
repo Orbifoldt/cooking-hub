@@ -1,6 +1,6 @@
 package com.cookinghub.recipes.service;
 
-import com.cookinghub.recipes.service.serviceImpl.RecipeServiceImpl;
+import com.cookinghub.recipes.service.serviceImpl.RecipeServiceImplStub;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +16,7 @@ public class Application {
 
 	@Bean
 	public RecipeService recipeService(){
-		return new RecipeServiceImpl();
+		return new RecipeServiceImplStub();
 	}
 
 }

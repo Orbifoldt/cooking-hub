@@ -1,4 +1,4 @@
-package com.cookinghub.recipes.model;
+package com.cookinghub.recipes.model.recipes;
 
 import static org.junit.Assert.assertEquals;
 

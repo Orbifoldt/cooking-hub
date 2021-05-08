@@ -1,4 +1,4 @@
-package com.cookinghub.recipes.model;
+package com.cookinghub.recipes.model.recipes;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -81,7 +81,7 @@ public class Mass extends Unit {
     }
 
     /**
-     * @return {@link com.cookinghub.recipes.model.Unit.UnitType#MASS}
+     * @return {@link Unit.UnitType#MASS}
      */
     @Override
     public UnitType getUnitType(){

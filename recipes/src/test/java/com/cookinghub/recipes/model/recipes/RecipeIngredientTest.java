@@ -1,4 +1,4 @@
-package com.cookinghub.recipes.model;
+package com.cookinghub.recipes.model.recipes;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,7 +12,7 @@ public class RecipeIngredientTest {
         double gram = 100.;
         Ingredient sugar = new SimpleIngredient(ingredientName);
         Mass weight = new Mass(gram);
-        RecipeIngredient<Ingredient, Mass> ri = new RecipeIngredient<>(sugar, weight);
+        RecipeIngredient<Mass> ri = new RecipeIngredient<>(sugar, weight);
         assertEquals(ingredientName, ri.getIngredient().getName());
         assertEquals(gram, ri.getAmount().getGram(), 1e-6);
     }
@@ -23,7 +23,7 @@ public class RecipeIngredientTest {
         double milliliter = 100.;
         Ingredient water = new SimpleIngredient(ingredientName);
         Volume weight = new Volume(milliliter);
-        RecipeIngredient<Ingredient, Volume> ri = new RecipeIngredient<>(water, weight);
+        RecipeIngredient<Volume> ri = new RecipeIngredient<>(water, weight);
         assertEquals(ingredientName, ri.getIngredient().getName());
         assertEquals(milliliter, ri.getAmount().getMilliliter(), 1e-6);
     }
@@ -36,8 +36,8 @@ public class RecipeIngredientTest {
         double gram = 100.;
         Ingredient sugar = new SimpleIngredient(ingredientName);
         Mass weight = new Mass(gram);
-        RecipeIngredient<Ingredient, Mass> ri = new RecipeIngredient<>(sugar, weight);
-        RecipeIngredient<Ingredient, Mass> riCopy = ri.copy();
+        RecipeIngredient<Mass> ri = new RecipeIngredient<>(sugar, weight);
+        RecipeIngredient<Mass> riCopy = ri.copy();
         assertEquals(ri.getIngredient().getName(), riCopy.getIngredient().getName());
         assertEquals(ri.getAmount().getGram(), riCopy.getAmount().getGram() ,1e-6);
     }

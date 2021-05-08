@@ -5,7 +5,7 @@
 3. Download [Structurizr Puppeteer](https://github.com/structurizr/puppeteer) in order to export to png/svg locally (Install puppeteer node module with `npm install puppeteer`)
 4. Use the following to auto download the image files `node export-private-diagrams.js https://structurizr.com username password png 123456`
 
-Example script:
+Example Powershell script:
 ```
 $dslFileName = "recipes-hub.dsl"
 $filepath = Join-Path $PSScriptRoot $dslFileName 

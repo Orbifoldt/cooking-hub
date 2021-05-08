@@ -1,4 +1,4 @@
-package com.cookinghub.recipes.model;
+package com.cookinghub.recipes.model.recipes;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,7 +11,7 @@ public abstract class Unit {
     /**
      * Denotes the type of the unit.
      */
-    enum UnitType {
+    public enum UnitType {
         /**
          * Denoting mass, used when you measure using e.g. gram, kilogram, ounces or pounds
          */
@@ -30,9 +30,9 @@ public abstract class Unit {
         return UnitType.OTHER;
     }
 
-    abstract double getValue();
+    public abstract double getValue();
 
-    abstract Unit copy();
+    public abstract Unit copy();
 
     /**
      * @return "unit" if this.getValue() returns 1, or "units" otherwise

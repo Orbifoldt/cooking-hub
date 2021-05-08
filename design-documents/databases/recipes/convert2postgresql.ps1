@@ -1,2 +1,4 @@
 # npm install -g @dbml/cli  # To install the DBML CLI
-dbml2sql recipes-hub-schema.dbml --out-file recipes-hub-schema.sql
+$dbmlFile = Join-Path $PSScriptRoot recipes-hub-schema.dbml
+$outputFile = Join-Path $PSScriptRoot recipes-hub-schema.sql
+dbml2sql $dbmlFile --out-file $outputFile

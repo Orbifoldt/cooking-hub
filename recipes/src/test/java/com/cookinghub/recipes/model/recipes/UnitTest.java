@@ -1,7 +1,7 @@
-package com.cookinghub.recipes.model;
+package com.cookinghub.recipes.model.recipes;
 
-import static com.cookinghub.recipes.model.Unit.extractUnit;
-import static com.cookinghub.recipes.model.Unit.parseValue;
+import static com.cookinghub.recipes.model.recipes.Unit.extractUnit;
+import static com.cookinghub.recipes.model.recipes.Unit.parseValue;
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

@@ -1,6 +1,6 @@
 package com.cookinghub.recipes.service;
 
-import com.cookinghub.recipes.model.Recipe;
+import com.cookinghub.recipes.model.recipes.Recipe;
 
 public interface RecipeService {
 

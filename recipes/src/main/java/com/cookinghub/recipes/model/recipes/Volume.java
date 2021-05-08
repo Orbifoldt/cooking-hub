@@ -1,4 +1,4 @@
-package com.cookinghub.recipes.model;
+package com.cookinghub.recipes.model.recipes;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -94,7 +94,7 @@ public class Volume extends Unit {
     }
 
     /**
-     * @return {@link com.cookinghub.recipes.model.Unit.UnitType#VOLUME}
+     * @return {@link Unit.UnitType#VOLUME}
      */
     @Override
     public UnitType getUnitType(){

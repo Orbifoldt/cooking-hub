@@ -1,7 +1,9 @@
-package com.cookinghub.recipes.model;
+package com.cookinghub.recipes.model.recipes;
 
 import static org.junit.Assert.assertEquals;
 
+import com.cookinghub.recipes.model.recipes.Ingredient;
+import com.cookinghub.recipes.model.recipes.SimpleIngredient;
 import org.junit.Test;
 
 public class SimpleIngredientTest {

@@ -1,4 +1,4 @@
-package com.cookinghub.recipes.model;
+package com.cookinghub.recipes.model.recipes;
 
 import static org.junit.Assert.assertEquals;
 
@@ -22,18 +22,18 @@ public class SimpleRecipeTest {
     public void addingIngredientsSimpleRecipeTest(){
         Ingredient onionIngredient = new SimpleIngredient("Onion");
         Mass onionMass = new Mass(250.);
-        RecipeIngredient<Ingredient, Mass> onion = new RecipeIngredient<>(onionIngredient, onionMass);
+        RecipeIngredient<Mass> onion = new RecipeIngredient<>(onionIngredient, onionMass);
 
         Ingredient broccoliIngredient = new SimpleIngredient("Brocolli");
         Unit broccoliAmount = new Mass(400.f);
-        RecipeIngredient<Ingredient, Unit> broccoli = new RecipeIngredient<>(broccoliIngredient, broccoliAmount);
+        RecipeIngredient<Unit> broccoli = new RecipeIngredient<>(broccoliIngredient, broccoliAmount);
 
         Ingredient stockIngredient = new SimpleIngredient("Vegetable stock");
         Volume stockVolume = Volume.fromCups(16);
-        RecipeIngredient<Ingredient, Volume> stock = new RecipeIngredient<>(stockIngredient, stockVolume);
+        RecipeIngredient<Volume> stock = new RecipeIngredient<>(stockIngredient, stockVolume);
         
         String recipeName = "Soup";
-        List<RecipeIngredient<? extends Ingredient, ? extends Unit>> initialIngredientList = Arrays.asList(onion);
+        List<RecipeIngredient<? extends Unit>> initialIngredientList = Arrays.asList(onion);
         SimpleRecipe soupRecipe = new SimpleRecipe(recipeName, initialIngredientList);
         assertEquals("Expected the ingredient list to have 1 element", 1, soupRecipe.getIngredientList().size());
         assertEquals(onion.getIngredient().getName(), soupRecipe.getIngredient(0).getIngredient().getName());
@@ -60,9 +60,9 @@ public class SimpleRecipeTest {
 
     @Test
     public void addingInstructionsSimpleRecipeTest(){
-        RecipeIngredient<Ingredient, Unit> onion = new RecipeIngredient<>(new SimpleIngredient("Onion"), new Mass(250.));
+        RecipeIngredient<Unit> onion = new RecipeIngredient<>(new SimpleIngredient("Onion"), new Mass(250.));
         String recipeName = "Soup";
-        List<RecipeIngredient<?, ?>> initialIngredientList = Arrays.asList(onion);
+        List<RecipeIngredient<?>> initialIngredientList = Arrays.asList(onion);
         
         String step1 = "This is step 1", step2 = "The second step is this", step3 = "yet another one", step4 = "and done.";
         List<String> instructions = Arrays.asList(step1, step3);

@@ -1,8 +1,8 @@
 Xtext Language Server is starting.
 Xtext Language Server has been started.
-[Trace - 10:43:36 p.m.] Received request 'initialize - (0)'
+[Trace - 11:22:42 a.m.] Received request 'initialize - (0)'
 Params: {
-  "processId": 15992,
+  "processId": 15704,
   "rootPath": "f:\\Jeroen\\Dropbox\\Spring test project\\cooking-hub",
   "rootUri": "file:///f%3A/Jeroen/Dropbox/Spring%20test%20project/cooking-hub",
   "capabilities": {
@@ -247,7 +247,7 @@ Params: {
 
 
 DSL file does not contain views. Probably imported views.
-[Trace - 10:43:40 p.m.] Sending response 'initialize - (0)'. Processing request took 3304ms
+[Trace - 11:22:47 a.m.] Sending response 'initialize - (0)'. Processing request took 4823ms
 Result: {
   "capabilities": {
     "textDocumentSync": 2,
@@ -294,58 +294,29 @@ Result: {
 }
 
 
-[Trace - 10:43:40 p.m.] Received notification 'initialized'
+[Trace - 11:22:47 a.m.] Received notification 'initialized'
 Params: {}
 
 
-[Trace - 10:43:40 p.m.] Sending notification 'textDocument/publishDiagnostics'
+[Trace - 11:22:47 a.m.] Sending notification 'textDocument/publishDiagnostics'
 Params: {
   "uri": "file:///f:/Jeroen/Dropbox/Spring%20test%20project/cooking-hub/design-documents/architecture/recipes-hub.dsl",
   "diagnostics": []
 }
 
 
-[Trace - 10:43:40 p.m.] Received notification 'textDocument/didOpen'
+[Trace - 11:22:47 a.m.] Received notification 'textDocument/didOpen'
 Params: {
   "textDocument": {
     "uri": "file:///f%3A/Jeroen/Dropbox/Spring%20test%20project/cooking-hub/design-documents/architecture/recipes-hub.dsl",
     "languageId": "c4",
-    "version": 3,
+    "version": 1,
     "text": "workspace {\r\n    model {\r\n        user \u003d person \"User\"\r\n\r\n        softwareSystem \"Software System\"  {\r\n            wa \u003d container \"Web Application\" \"React\"\r\n            db \u003d container \"Database\" \"PostgreSQL\"\r\n            api \u003d container \"application service\" \"Spring Boot\"\r\n        }\r\n\r\n        user -\u003e wa \"Views existing recipes and adds new ones\"\r\n        wa -\u003e api \"Uses for getting data\"\r\n        api -\u003e db \"Request data\"\r\n\r\n    }\r\n\r\n}"
   }
 }
 
 
-[Trace - 10:43:40 p.m.] Received request 'textDocument/documentSymbol - (1)'
-Params: {
-  "textDocument": {
-    "uri": "file:///f%3A/Jeroen/Dropbox/Spring%20test%20project/cooking-hub/design-documents/architecture/recipes-hub.dsl"
-  }
-}
-
-
-[Trace - 10:43:40 p.m.] Received request 'textDocument/codeAction - (2)'
-Params: {
-  "textDocument": {
-    "uri": "file:///f%3A/Jeroen/Dropbox/Spring%20test%20project/cooking-hub/design-documents/architecture/recipes-hub.dsl"
-  },
-  "range": {
-    "start": {
-      "line": 14,
-      "character": 5
-    },
-    "end": {
-      "line": 14,
-      "character": 5
-    }
-  },
-  "context": {
-    "diagnostics": []
-  }
-}
-
-
-[Trace - 10:43:40 p.m.] Sending notification 'textDocument/publishDiagnostics'
+[Trace - 11:22:47 a.m.] Sending notification 'textDocument/publishDiagnostics'
 Params: {
   "uri": "file:///f:/Jeroen/Dropbox/Spring%20test%20project/cooking-hub/design-documents/architecture/recipes-hub.dsl",
   "diagnostics": []
@@ -353,138 +324,3 @@ Params: {
 
 
 DSL file does not contain views. Probably imported views.
-[Trace - 10:43:40 p.m.] Sending response 'textDocument/codeAction - (2)'. Processing request took 39ms
-Result: []
-
-
-[Trace - 10:43:40 p.m.] Sending response 'textDocument/documentSymbol - (1)'. Processing request took 57ms
-Result: [
-  {
-    "name": "user",
-    "kind": 7,
-    "range": {
-      "start": {
-        "line": 2,
-        "character": 8
-      },
-      "end": {
-        "line": 2,
-        "character": 28
-      }
-    },
-    "selectionRange": {
-      "start": {
-        "line": 2,
-        "character": 8
-      },
-      "end": {
-        "line": 2,
-        "character": 12
-      }
-    },
-    "detail": "",
-    "deprecated": false,
-    "children": []
-  },
-  {
-    "name": "wa",
-    "kind": 7,
-    "range": {
-      "start": {
-        "line": 5,
-        "character": 12
-      },
-      "end": {
-        "line": 5,
-        "character": 52
-      }
-    },
-    "selectionRange": {
-      "start": {
-        "line": 5,
-        "character": 12
-      },
-      "end": {
-        "line": 5,
-        "character": 14
-      }
-    },
-    "detail": "",
-    "deprecated": false,
-    "children": []
-  },
-  {
-    "name": "db",
-    "kind": 7,
-    "range": {
-      "start": {
-        "line": 6,
-        "character": 12
-      },
-      "end": {
-        "line": 6,
-        "character": 50
-      }
-    },
-    "selectionRange": {
-      "start": {
-        "line": 6,
-        "character": 12
-      },
-      "end": {
-        "line": 6,
-        "character": 14
-      }
-    },
-    "detail": "",
-    "deprecated": false,
-    "children": []
-  },
-  {
-    "name": "api",
-    "kind": 7,
-    "range": {
-      "start": {
-        "line": 7,
-        "character": 12
-      },
-      "end": {
-        "line": 7,
-        "character": 63
-      }
-    },
-    "selectionRange": {
-      "start": {
-        "line": 7,
-        "character": 12
-      },
-      "end": {
-        "line": 7,
-        "character": 15
-      }
-    },
-    "detail": "",
-    "deprecated": false,
-    "children": []
-  }
-]
-
-
-[Trace - 10:43:40 p.m.] Received request 'textDocument/codeLens - (3)'
-Params: {
-  "textDocument": {
-    "uri": "file:///f%3A/Jeroen/Dropbox/Spring%20test%20project/cooking-hub/design-documents/architecture/recipes-hub.dsl"
-  }
-}
-
-
-[Trace - 10:43:40 p.m.] Sending response 'textDocument/codeLens - (3)'. Processing request took 5ms
-Result: []
-
-
-[Trace - 10:43:40 p.m.] Received notification '$/setTraceNotification'
-Params: {
-  "value": "off"
-}
-
-

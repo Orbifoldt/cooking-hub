@@ -1,4 +1,4 @@
-package com.cookinghub.recipes.model;
+package com.cookinghub.recipes.model.recipes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,21 +8,29 @@ public class SimpleRecipe implements Recipe{
     private final String name;
     private final long id;
 
-    private List<RecipeIngredient<? extends Ingredient, ? extends Unit>> ingredientList = new ArrayList<>();
+    private List<RecipeIngredient<? extends Unit>> ingredientList = new ArrayList<>();
     private List<String> instructions = new ArrayList<>();
 
-    public SimpleRecipe(String name){
-        this.name = name;
-        this.id = 0L;
+    public SimpleRecipe(long id){
+        this("NO_NAME", id);
     }
 
-    public SimpleRecipe(String name,  List<RecipeIngredient<? extends Ingredient, ? extends Unit>> ingredientList){
+    public SimpleRecipe(String name){
+        this(name, 0L);
+    }
+
+    public SimpleRecipe(String name, long id){
+        this.name = name;
+        this.id = id;
+    }
+
+    public SimpleRecipe(String name,  List<RecipeIngredient<? extends Unit>> ingredientList){
         this(name);
         this.ingredientList = copyIngredients(ingredientList);
     }
 
     public SimpleRecipe(String name,  
-                        List<RecipeIngredient<? extends Ingredient, ? extends Unit>> ingredientList, 
+                        List<RecipeIngredient<? extends Unit>> ingredientList,
                         List<String> instructions)
     {
         this(name, ingredientList);
@@ -30,28 +38,28 @@ public class SimpleRecipe implements Recipe{
     }
 
     @Override
-    public List<RecipeIngredient<? extends Ingredient, ? extends Unit>> getIngredientList() {
+    public List<RecipeIngredient<? extends Unit>> getIngredientList() {
         return copyIngredients(ingredientList);
     }
 
     @Override
-    public RecipeIngredient<? extends Ingredient, ? extends Unit> getIngredient(int index) {
+    public RecipeIngredient<? extends Unit> getIngredient(int index) {
         return ingredientList.get(index);
     }
 
     @Override
-    public void addIngredient(RecipeIngredient<? extends Ingredient, ? extends Unit> recipeIngredient, int index) {
+    public void addIngredient(RecipeIngredient<? extends Unit> recipeIngredient, int index) {
         ingredientList.add(index, recipeIngredient);
     }
 
     @Override
-    public void addIngredient(RecipeIngredient<? extends Ingredient, ? extends Unit> recipeIngredient) {
+    public void addIngredient(RecipeIngredient<? extends Unit> recipeIngredient) {
         ingredientList.add(recipeIngredient);
     }
 
-    private List<RecipeIngredient<? extends Ingredient, ? extends Unit>> copyIngredients(List<RecipeIngredient<? extends Ingredient, ? extends Unit>> sourceIngredientList){
-        List<RecipeIngredient<? extends Ingredient, ? extends Unit>> copiedIngredientList = new ArrayList<>();
-        for(RecipeIngredient<? extends Ingredient, ? extends Unit> recipeIngredient : sourceIngredientList){
+    private List<RecipeIngredient<? extends Unit>> copyIngredients(List<RecipeIngredient<? extends Unit>> sourceIngredientList){
+        List<RecipeIngredient<? extends Unit>> copiedIngredientList = new ArrayList<>();
+        for(RecipeIngredient<? extends Unit> recipeIngredient : sourceIngredientList){
             copiedIngredientList.add(recipeIngredient.copy());
         }
         return copiedIngredientList;
