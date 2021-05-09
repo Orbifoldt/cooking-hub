@@ -40,6 +40,10 @@ public final class RecipeInstruction implements Comparable<RecipeInstruction> {
     }
 
 
+    @Override
+    public String toString(){
+        return ordinal + ". " + instruction;
+    }
 
     @Override
     public int compareTo(RecipeInstruction other) {

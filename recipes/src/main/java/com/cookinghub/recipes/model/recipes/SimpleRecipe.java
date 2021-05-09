@@ -98,16 +98,16 @@ public class SimpleRecipe implements Recipe{
 
     @Override
     public String toString(){
-        String output = "===== Ingredients =====";
+        StringBuilder output = new StringBuilder("===== Ingredients =====");
         for(var ingredient : ingredientList){
-            output += "\n - " + ingredient.toString();
+            output.append("\n - ").append(ingredient.toString());
         }
-        output += "\n\n===== Instructions =====";
+        output.append("\n\n===== Instructions =====");
         int n = 0;
         for(String instruction : instructions){
-            output += "\n " + (++n) + ". " + instruction;
+            output.append("\n ").append(++n).append(". ").append(instruction);
         }
-        return output;
+        return output.toString();
     }
     
 }

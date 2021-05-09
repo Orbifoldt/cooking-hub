@@ -9,6 +9,8 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -65,5 +67,27 @@ public class RecipeDataSourceImplTest {
     public void updateRecipeInstructionTest(){
         RecipeInstruction instruction = new RecipeInstruction(1,1,"EDIT: It puts the lotion on its skin.");
 
+    }
+
+    @Test
+    public void getRecipeIngredientsTest(){
+        List<RecipeIngredient<? extends Unit>> recipeIngredients = recipeDataSource.getRecipeIngredients(1);
+        for(RecipeIngredient<?> recipeIngredient : recipeIngredients){
+            System.out.println(recipeIngredient.toString());
+        }
+    }
+
+    @Test
+    public void getRecipeInstructionsTest(){
+        List<RecipeInstruction> recipeInstructions = recipeDataSource.getRecipeInstructions(1);
+        for(RecipeInstruction recipeInstruction : recipeInstructions){
+            System.out.println(recipeInstruction.toString());
+        }
+    }
+
+    @Test
+    public void getRecipeTest(){
+        Recipe recipe = recipeDataSource.getRecipe(1);
+        System.out.println(recipe.toString());
     }
 }

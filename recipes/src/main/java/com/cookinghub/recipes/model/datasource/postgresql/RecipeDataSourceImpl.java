@@ -5,6 +5,9 @@ import com.cookinghub.recipes.model.recipes.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.LongFunction;
 
 public class RecipeDataSourceImpl implements RecipeDataSource {
@@ -36,30 +39,60 @@ public class RecipeDataSourceImpl implements RecipeDataSource {
 
     @Override
     public Recipe getRecipe(long id) {
-        return null;
+        try(Connection conn = connectionManager.getConnection();
+            PreparedStatement pst = conn.prepareStatement(GET_RECIPE)) {
+            pst.setLong(1, id);
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                String name = rs.getString(1);
+                Date date = rs.getDate(2);
+                Recipe recipe = new SimpleRecipe(name, id);
+                List<RecipeIngredient<?>> recipeIngredients = getRecipeIngredients(id);
+                for(RecipeIngredient<?> recipeIngredient : recipeIngredients){
+                    recipe.addIngredient(recipeIngredient);
+                }
+                List<RecipeInstruction> recipeInstructions = getRecipeInstructions(id);
+                for(RecipeInstruction recipeInstruction : recipeInstructions){
+                    recipe.addInstruction(recipeInstruction.getInstruction());
+                }
+                return recipe;
+            } else {
+                throw new SQLException(String.format("No recipe with id=%d was found", id));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public void deleteRecipe(long id) {
+        executeWithLongArgument(DELETE_RECIPE, id);
     }
 
     @Override
     public Ingredient getIngredient(long id) {
-        return null;
-    }
-
-    private <T> T createRow(String query, LongFunction<T> supplier){
         try(Connection conn = connectionManager.getConnection();
-            PreparedStatement pst = conn.prepareStatement(query)) {
-            pst.setString(1, DEFAULT_NAME);
-            try (ResultSet rs = pst.executeQuery()) {
-                if(rs.next()) {
-                    long id = rs.getLong(1);
-                    return supplier.apply(id);
-                } else {
-                    throw new SQLException("No id was generated, could not produce " + supplier.getClass().getName());
-                }
+            PreparedStatement pst = conn.prepareStatement(GET_INGREDIENT)) {
+            pst.setLong(1, id);
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                String name = rs.getString(1);
+                double densityValue = rs.getDouble(2);
+                Optional<Double> density = Optional.ofNullable(densityValue > 0 ? densityValue : null);
+                return new SimpleIngredient(name, id, density);
+            } else {
+                throw new SQLException(String.format("No ingredient with id=%d was found", id));
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public void deleteIngredient(long id) {
+        executeWithLongArgument(DELETE_INGREDIENT, id);
     }
 
     @Override
@@ -141,6 +174,44 @@ public class RecipeDataSourceImpl implements RecipeDataSource {
     }
 
     @Override
+    public List<RecipeIngredient<? extends Unit>> getRecipeIngredients(long recipeId) {
+        try(Connection conn = connectionManager.getConnection();
+            PreparedStatement pst = conn.prepareStatement(GET_RECIPE_INGREDIENTS)) {
+            pst.setLong(1, recipeId);
+            ResultSet rs = pst.executeQuery();
+            List<RecipeIngredient<? extends Unit>> recipeIngredients = new ArrayList<>();
+            while(rs.next()){
+                int ordinal = rs.getInt(1);
+                long ingredientId = rs.getLong(2);
+                double amountValue = rs.getDouble(3);
+                String type = rs.getString(4);
+                String notes = rs.getString(5);
+
+                Unit.UnitType unitType = Unit.UnitType.valueOf(type);
+                Ingredient ingredient = getIngredient(ingredientId);
+                Unit amount = Units.produceUnit(unitType, amountValue);
+                RecipeIngredient<? extends Unit> recipeIngredient = new RecipeIngredient<>(ingredient, amount, recipeId, ordinal);
+                recipeIngredient.setNotes(notes);
+                recipeIngredients.add(recipeIngredient);
+            }
+            if(recipeIngredients.isEmpty()) {
+                throw new SQLException(String.format("No recipe ingredient for the recipe with recipe_id=%d was found", recipeId));
+            } else {
+                return recipeIngredients;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    @Override
+    public void deleteRecipeIngredient(long recipeId, int ordinal) {
+        executeWithLongAndIntArgument(DELETE_RECIPE_INGREDIENT, recipeId, ordinal);
+    }
+
+    @Override
     public void storeNewRecipeInstruction(long recipeId, int ordinal, String instruction) {
         try(Connection conn = connectionManager.getConnection();
             PreparedStatement pst = conn.prepareStatement(INSERT_NEW_RECIPE_INSTRUCTION)) {
@@ -163,6 +234,75 @@ public class RecipeDataSourceImpl implements RecipeDataSource {
             pst.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<RecipeInstruction> getRecipeInstructions(long recipeId) {
+        try(Connection conn = connectionManager.getConnection();
+            PreparedStatement pst = conn.prepareStatement(GET_RECIPE_INSTRUCTIONS)) {
+            pst.setLong(1, recipeId);
+            ResultSet rs = pst.executeQuery();
+            List<RecipeInstruction> recipeInstructions = new ArrayList<>();
+            while(rs.next()){
+                int ordinal = rs.getInt(1);
+                String instruction = rs.getString(2);
+                recipeInstructions.add(new RecipeInstruction(recipeId, ordinal, instruction));
+            }
+            if(recipeInstructions.isEmpty()) {
+                throw new SQLException(String.format("No recipe instruction for the recipe with recipe_id=%d was found", recipeId));
+            } else {
+                return recipeInstructions;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public void deleteRecipeInstruction(long recipeId, int ordinal) {
+        executeWithLongAndIntArgument(DELETE_RECIPE_INSTRUCTION, recipeId, ordinal);
+    }
+
+
+    private void executeWithLongArgument(String query, long argument){
+        try(Connection conn = connectionManager.getConnection();
+            PreparedStatement pst = conn.prepareStatement(query)) {
+            pst.setLong(1, argument);
+            pst.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void executeWithLongAndIntArgument(String query, long argument1, int argument2){
+        try(Connection conn = connectionManager.getConnection();
+            PreparedStatement pst = conn.prepareStatement(query)) {
+            pst.setLong(1, argument1);
+            pst.setInt(2, argument2);
+            pst.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private <T> T createRow(String query, LongFunction<T> supplier){
+        try(Connection conn = connectionManager.getConnection();
+            PreparedStatement pst = conn.prepareStatement(query)) {
+            pst.setString(1, DEFAULT_NAME);
+            try (ResultSet rs = pst.executeQuery()) {
+                if(rs.next()) {
+                    long id = rs.getLong(1);
+                    return supplier.apply(id);
+                } else {
+                    throw new SQLException("No id was generated, could not produce " + supplier.getClass().getName());
+                }
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+            return null;
         }
     }
 

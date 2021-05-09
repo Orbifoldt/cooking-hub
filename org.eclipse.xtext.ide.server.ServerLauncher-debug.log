@@ -732,3 +732,15 @@ Params: {
 }
 
 
+[Trace - 11:27:24 p.m.] Received request 'shutdown - (11)'
+Params: null
+
+
+[Trace - 11:27:24 p.m.] Sending response 'shutdown - (11)'. Processing request took 16ms
+Result: {}
+
+
+[Trace - 11:27:24 p.m.] Received notification 'exit'
+Params: null
+
+
