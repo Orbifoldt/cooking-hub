@@ -19,50 +19,56 @@ public class RecipeServiceImplStub implements RecipeService {
     public Recipe getRecipe(long id) {
         Recipe recipe;
         if(id==1L){
-            recipe = getSoupRecipe();
+            recipe = getSoupRecipe(1L);
         } else if (id == 2L){
-            recipe = getCakeRecipe();
+            recipe = getCakeRecipe(2L);
         } else {
-            recipe = new SimpleRecipe("Empty Recipe");
+            recipe = new SimpleRecipe("New Empty Recipe", id);
         }
         return recipe;
     }
 
-    private Recipe getSoupRecipe(){
-        Ingredient onionIngredient = new SimpleIngredient("Onion");
+    public Recipe getSoupRecipe(long id){
+        Ingredient onionIngredient = new SimpleIngredient("Onion", id);
         Mass onionMass = new Mass(250.);
-        RecipeIngredient<Mass> onion = new RecipeIngredient<>(onionIngredient, onionMass);
+        RecipeIngredient<Mass> onion = new RecipeIngredient<>(onionIngredient, onionMass, id);
 
-        Ingredient broccoliIngredient = new SimpleIngredient("Brocolli");
+        Ingredient broccoliIngredient = new SimpleIngredient("Brocolli", id);
         Unit broccoliAmount = new Mass(400.f);
-        RecipeIngredient<Unit> brocolli = new RecipeIngredient<>(broccoliIngredient, broccoliAmount);
+        RecipeIngredient<Unit> brocolli = new RecipeIngredient<>(broccoliIngredient, broccoliAmount, id);
 
-        Ingredient stockIngredient = new SimpleIngredient("Vegetable stock");
+        Ingredient stockIngredient = new SimpleIngredient("Vegetable stock", id);
         Volume stockVolume = Volume.fromCups(16);
-        RecipeIngredient<Volume> stock = new RecipeIngredient<>(stockIngredient, stockVolume);
+        RecipeIngredient<Volume> stock = new RecipeIngredient<>(stockIngredient, stockVolume, id);
 
         String recipeName = "Soup";
         List<RecipeIngredient<? extends Unit>> initialIngredientList = Arrays.asList(onion, brocolli, stock);
-        List<String> instructions = Arrays.asList("The first step is to do this.", "Secondly we do this.", "The end.");
-        return new SimpleRecipe(recipeName, initialIngredientList, instructions);
+        RecipeInstruction step1 = new RecipeInstruction(id, 0, "The first step is to do this.");
+        RecipeInstruction step2 = new RecipeInstruction(id, 1, "Secondly we do this.");
+        RecipeInstruction step3 = new RecipeInstruction(id, 2, "The end.");
+        List<RecipeInstruction> instructions = Arrays.asList(step1, step2, step3);
+        return new SimpleRecipe(recipeName, id, initialIngredientList, instructions);
     }
 
-    private Recipe getCakeRecipe(){
-        Ingredient sugarIngredient = new SimpleIngredient("Onion");
+    public Recipe getCakeRecipe(long id){
+        Ingredient sugarIngredient = new SimpleIngredient("Onion", id);
         Mass sugarMass = new Mass(350.);
-        RecipeIngredient<Mass> sugar = new RecipeIngredient<>(sugarIngredient, sugarMass);
+        RecipeIngredient<Mass> sugar = new RecipeIngredient<>(sugarIngredient, sugarMass, id);
 
-        Ingredient flourIngredient = new SimpleIngredient("Brocolli");
+        Ingredient flourIngredient = new SimpleIngredient("Brocolli", id);
         Unit flourAmount = new Mass(400.);
-        RecipeIngredient<Unit> flour = new RecipeIngredient<>(flourIngredient, flourAmount);
+        RecipeIngredient<Unit> flour = new RecipeIngredient<>(flourIngredient, flourAmount, id);
 
-        Ingredient eggIngredient = new SimpleIngredient("Vegetable stock");
+        Ingredient eggIngredient = new SimpleIngredient("Vegetable stock", id);
         Volume eggVolume = Volume.fromCups(4);
-        RecipeIngredient<Volume> egg = new RecipeIngredient<>(eggIngredient, eggVolume);
+        RecipeIngredient<Volume> egg = new RecipeIngredient<>(eggIngredient, eggVolume, id);
 
         String recipeName = "Cake";
         List<RecipeIngredient<? extends Unit>> initialIngredientList = Arrays.asList(sugar, flour, egg);
-        List<String> instructions = Arrays.asList("For the cake we start with this.", "Then bake the cake.", "The cake is done.");
-        return new SimpleRecipe(recipeName, initialIngredientList, instructions);
+        RecipeInstruction step1 = new RecipeInstruction(id, 0, "For the cake we start with this.");
+        RecipeInstruction step2 = new RecipeInstruction(id, 1, "Then bake the cake.");
+        RecipeInstruction step3 = new RecipeInstruction(id, 2, "The cake is done.");
+        List<RecipeInstruction> instructions = Arrays.asList(step1, step2, step3);
+        return new SimpleRecipe(recipeName, id, initialIngredientList, instructions);
     }
 }

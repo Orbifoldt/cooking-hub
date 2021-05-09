@@ -10,14 +10,17 @@ public class SimpleIngredientTest {
 
     @Test
     public void createSimpleIngredientTest(){
+        long id = 13579L;
         String ingredientName = "Onion";
-        SimpleIngredient ingredient = new SimpleIngredient(ingredientName);
+        SimpleIngredient ingredient = new SimpleIngredient(ingredientName, id);
         assertEquals(ingredientName, ingredient.getName());
+        assertEquals(id, ingredient.getId());
     }
 
     @Test
     public void copyIngredientTest(){
-        Ingredient sugar1 = new SimpleIngredient("Sugar");
+        long id = 13579L;
+        Ingredient sugar1 = new SimpleIngredient("Sugar", id);
         Ingredient sugar2 = sugar1.copy();
         assertEquals(sugar1.getName(), sugar2.getName());
     }

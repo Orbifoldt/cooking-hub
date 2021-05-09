@@ -9,27 +9,20 @@ public class SimpleIngredient implements Ingredient{
 
     private final String name;
     private final long id;
-    private Optional<Double> density = Optional.empty();
+    private Optional<Double> density;
 
     public SimpleIngredient(long id){
         this("NO_NAME", id);
     }
 
-    /**
-     * Creates a SimpleIngredient with a given name.
-     * @param name The name of the ingredient
-     */
-    public SimpleIngredient(String name){
-        this(name, 0L);
-    }
 
     /**
-     * Creates a SimpleIngredient with a given name.
+     * Creates a SimpleIngredient with a given name and id.
      * @param name The name of the ingredient
+     * @param id The id of this ingredient
      */
     public SimpleIngredient(String name, long id){
-        this.name = name;
-        this.id = id;
+        this(name, id, Optional.empty());
     }
 
     /**
@@ -63,7 +56,7 @@ public class SimpleIngredient implements Ingredient{
 
     @Override
     public Ingredient copy() {
-        return new SimpleIngredient(name);
+        return new SimpleIngredient(name, id, density);
     }
     
 }

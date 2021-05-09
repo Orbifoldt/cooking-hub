@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 /**
  * A data st
  */
-public abstract class Unit {
+public abstract class Unit implements Copyable<Unit> {
 
     /**
      * Denotes the type of the unit.

@@ -1,6 +1,6 @@
 package com.cookinghub.recipes.model.recipes;
 
-public final class RecipeInstruction implements Comparable<RecipeInstruction> {
+public final class RecipeInstruction implements Comparable<RecipeInstruction>, Copyable<RecipeInstruction> {
 
     private final long recipeId;
     private String instruction;
@@ -17,6 +17,15 @@ public final class RecipeInstruction implements Comparable<RecipeInstruction> {
         this.recipeId = recipeId;
         this.instruction = instruction;
         this.ordinal = ordinal;
+    }
+
+
+    public RecipeInstruction(long recipeId, String instruction) {
+        this(recipeId, -1, instruction);
+    }
+
+    public RecipeInstruction(RecipeInstruction recipeInstruction){
+        this(recipeInstruction.getRecipeId(), recipeInstruction.getOrdinal(), recipeInstruction.getInstruction());
     }
 
     public long getRecipeId() {
@@ -51,5 +60,10 @@ public final class RecipeInstruction implements Comparable<RecipeInstruction> {
             return ordinal - other.getOrdinal();
         }
         return recipeId < other.getRecipeId() ? -1 : 1;
+    }
+
+    @Override
+    public RecipeInstruction copy() {
+        return new RecipeInstruction(this);
     }
 }

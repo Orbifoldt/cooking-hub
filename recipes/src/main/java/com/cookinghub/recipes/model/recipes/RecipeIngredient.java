@@ -5,7 +5,7 @@ package com.cookinghub.recipes.model.recipes;
  * is of importance, we also need to know the amount required. This is a mutable object.
  * @param <U> A {@link Unit} containing the amount of the specified ingredient
  */
-public final class RecipeIngredient<U extends Unit> implements Comparable<RecipeIngredient<? extends Unit>>{
+public final class RecipeIngredient<U extends Unit> implements Comparable<RecipeIngredient<? extends Unit>>, Copyable<RecipeIngredient<U>>{
 
     private final Ingredient ingredient;
     private final U amount;
@@ -13,10 +13,6 @@ public final class RecipeIngredient<U extends Unit> implements Comparable<Recipe
     private final long recipeId;
     private String notes = "";
     private int ordinal;
-
-    public RecipeIngredient(Ingredient ingredient, U amount){
-        this(ingredient, amount, 0L);
-    }
 
     public RecipeIngredient(Ingredient ingredient, U amount, long recipeId){
         this(ingredient, amount, recipeId, -1);
@@ -43,7 +39,9 @@ public final class RecipeIngredient<U extends Unit> implements Comparable<Recipe
      */
     @SuppressWarnings("unchecked")
     public RecipeIngredient<U> copy(){
-        return new RecipeIngredient<>((Ingredient) ingredient.copy(), (U) amount.copy());
+        RecipeIngredient<U> recipeIngredient = new RecipeIngredient<>(ingredient.copy(), (U) amount.copy(), recipeId, ordinal);
+        recipeIngredient.setNotes(notes);
+        return recipeIngredient;
     }
 
     public String getNotes() {

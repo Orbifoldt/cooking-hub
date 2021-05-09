@@ -1,78 +1,163 @@
 package com.cookinghub.recipes.model.recipes;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class SimpleRecipe implements Recipe{
 
-    private final String name;
     private final long id;
 
-    private List<RecipeIngredient<? extends Unit>> ingredientList = new ArrayList<>();
-    private List<String> instructions = new ArrayList<>();
+    private String name;
+    private LinkedHashSet<RecipeIngredient<? extends Unit>> ingredients = new LinkedHashSet<>();
+    private LinkedHashSet<RecipeInstruction> instructions = new LinkedHashSet<>();
 
-    public SimpleRecipe(long id){
-        this("NO_NAME", id);
-    }
-
-    public SimpleRecipe(String name){
-        this(name, 0L);
-    }
 
     public SimpleRecipe(String name, long id){
         this.name = name;
         this.id = id;
     }
 
-    public SimpleRecipe(String name,  List<RecipeIngredient<? extends Unit>> ingredientList){
-        this(name);
-        this.ingredientList = copyIngredients(ingredientList);
+    public SimpleRecipe(long id){
+        this("NO_NAME", id);
     }
 
-    public SimpleRecipe(String name,  
+    public SimpleRecipe(String name,
+                        long id,
                         List<RecipeIngredient<? extends Unit>> ingredientList,
-                        List<String> instructions)
-    {
-        this(name, ingredientList);
-        this.instructions = new ArrayList<>(instructions);
+                        List<RecipeInstruction> instructions) {
+        this(name, id);
+        this.ingredients = copyIngredientsFromList(ingredientList);
+        this.instructions = copyInstructionsFromList(instructions);
+        updateIngredientOrdinals();
+        updateInstructionOrdinals();
+    }
+
+    public SimpleRecipe(SimpleRecipe recipe){
+        this(recipe.getName(), recipe.getId(), recipe.getIngredients(), recipe.getInstructions());
+    }
+
+    private void updateIngredientOrdinals(){
+        int i = 0;
+        for(RecipeIngredient<?> ingredient : ingredients){
+            ingredient.setOrdinal(i++);
+            assert ingredient.getRecipeId() == id;
+        }
+    }
+
+    private void updateInstructionOrdinals(){
+        int i = 0;
+        for(RecipeInstruction instruction: instructions){
+            instruction.setOrdinal(i++);
+            assert instruction.getRecipeId() == id;
+        }
+    }
+
+
+    private LinkedHashSet<RecipeIngredient<? extends Unit>> copyIngredientsFromList(List<RecipeIngredient<? extends Unit>> sourceList) {
+        LinkedHashSet<RecipeIngredient<? extends Unit>> outputSet = new LinkedHashSet<>();
+        for(RecipeIngredient<?> recipeIngredient : sourceList){
+            outputSet.add(recipeIngredient.copy());
+        }
+        return outputSet;
+    }
+
+    private LinkedHashSet<RecipeInstruction> copyInstructionsFromList(List<RecipeInstruction> sourceList) {
+        LinkedHashSet<RecipeInstruction> outputSet = new LinkedHashSet<>();
+        for(RecipeInstruction recipeInstruction : sourceList){
+            outputSet.add(recipeInstruction.copy());
+        }
+        return outputSet;
+    }
+
+
+    private Predicate<RecipeIngredient<? extends Unit>> hasIngredientAt(final int index){
+        return ingredient -> ingredient.getOrdinal() == index;
+    }
+
+    private Predicate<RecipeInstruction> hasInstructionAt(final int index){
+        return instruction -> instruction.getOrdinal() == index;
+    }
+
+
+    @Override
+    public List<RecipeIngredient<? extends Unit>> getIngredients() {
+        return new ArrayList<>(ingredients);
     }
 
     @Override
-    public List<RecipeIngredient<? extends Unit>> getIngredientList() {
-        return copyIngredients(ingredientList);
+    public RecipeIngredient<? extends Unit> getIngredient(int index) throws NoSuchElementException {
+        return ingredients.stream().filter(hasIngredientAt(index)).findFirst().get();
     }
 
     @Override
-    public RecipeIngredient<? extends Unit> getIngredient(int index) {
-        return ingredientList.get(index);
-    }
-
-    @Override
-    public void addIngredient(RecipeIngredient<? extends Unit> recipeIngredient, int index) {
-        ingredientList.add(index, recipeIngredient);
+    public boolean addIngredient(RecipeIngredient<? extends Unit> recipeIngredient, int index) {
+        int numIngredients = ingredients.size();
+        if(index >= 0 && index <= numIngredients){
+            if (index < numIngredients) {
+                assert ingredients.stream().anyMatch(hasIngredientAt(index));
+                LinkedList<RecipeIngredient<?>> list = new LinkedList<>(ingredients);
+                for (int i = list.size() - 1; i >= index; i--) {
+                    RecipeIngredient<?> otherIngredient = list.get(i);
+                    assert otherIngredient.getOrdinal() == i;
+                    otherIngredient.setOrdinal(i + 1);
+                }
+            }
+            recipeIngredient.setOrdinal(index);
+            return ingredients.add(recipeIngredient);
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     @Override
     public void addIngredient(RecipeIngredient<? extends Unit> recipeIngredient) {
-        ingredientList.add(recipeIngredient);
-    }
-
-    private List<RecipeIngredient<? extends Unit>> copyIngredients(List<RecipeIngredient<? extends Unit>> sourceIngredientList){
-        List<RecipeIngredient<? extends Unit>> copiedIngredientList = new ArrayList<>();
-        for(RecipeIngredient<? extends Unit> recipeIngredient : sourceIngredientList){
-            copiedIngredientList.add(recipeIngredient.copy());
-        }
-        return copiedIngredientList;
+        addIngredient(recipeIngredient, ingredients.size());
     }
 
     @Override
-    public List<String> getInstructions() {
+    public List<RecipeInstruction> getInstructions() {
         return new ArrayList<>(instructions);
     }
 
     @Override
-    public String getInstruction(int index) {
-        return instructions.get(index);
+    public RecipeInstruction getInstruction(int index) throws NoSuchElementException {
+        return instructions.stream().filter(hasInstructionAt(index)).findFirst().get();
+    }
+
+    @Override
+    public boolean addInstruction(RecipeInstruction instruction, int index) {
+        int numInstructions = instructions.size();
+        if(index >=0 && index <= numInstructions){
+            if(index < numInstructions){
+                assert instructions.stream().anyMatch(hasInstructionAt(index));
+                LinkedList<RecipeInstruction> list = new LinkedList<>(instructions);
+                for (int i = list.size()-1; i>= index; i--){
+                    RecipeInstruction otherInstruction = list.get(i);
+                    assert otherInstruction.getOrdinal() == i;
+                    otherInstruction.setOrdinal(i + 1);
+                }
+            }
+            instruction.setOrdinal(index);
+            return instructions.add(instruction);
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
+    }
+
+    @Override
+    public void addInstruction(RecipeInstruction instruction) {
+        addInstruction(instruction, instructions.size());
+    }
+
+    @Override
+    public boolean addInstruction(String instruction, int index) {
+        return addInstruction(new RecipeInstruction(id, index, instruction), index);
+    }
+
+    @Override
+    public void addInstruction(String instruction) {
+        addInstruction(instruction, instructions.size());
     }
 
     @Override
@@ -86,26 +171,20 @@ public class SimpleRecipe implements Recipe{
     }
 
     @Override
-    public void addInstruction(String instruction, int index) {
-        instructions.add(index, instruction);
-        
-    }
-
-    @Override
-    public void addInstruction(String instruction) {
-        instructions.add(instruction);        
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
     public String toString(){
         StringBuilder output = new StringBuilder("===== Ingredients =====");
-        for(var ingredient : ingredientList){
+        for(var ingredient : ingredients){
             output.append("\n - ").append(ingredient.toString());
         }
         output.append("\n\n===== Instructions =====");
         int n = 0;
-        for(String instruction : instructions){
-            output.append("\n ").append(++n).append(". ").append(instruction);
+        for(RecipeInstruction instruction : instructions){
+            output.append("\n ").append(++n).append(". ").append(instruction.getInstruction());
         }
         return output.toString();
     }

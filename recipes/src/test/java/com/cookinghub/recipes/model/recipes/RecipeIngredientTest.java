@@ -7,39 +7,42 @@ import org.junit.Test;
 
 public class RecipeIngredientTest {
 
- 
+    private long melonRecipeId = 98765L;
     private Mass weight = new Mass(500);
-    private Ingredient melon = new SimpleIngredient("Melon");
+    private Ingredient melon = new SimpleIngredient("Melon", melonRecipeId);
     
     @Test
     public void creatingRecipeIngredientMassTest(){
+        long id = 13579L;
         String ingredientName = "Sugar";
         double gram = 100.;
-        Ingredient sugar = new SimpleIngredient(ingredientName);
+        Ingredient sugar = new SimpleIngredient(ingredientName, id);
         Mass weight = new Mass(gram);
-        RecipeIngredient<Mass> ri = new RecipeIngredient<>(sugar, weight);
+        RecipeIngredient<Mass> ri = new RecipeIngredient<>(sugar, weight, id);
         assertEquals(ingredientName, ri.getIngredient().getName());
         assertEquals(gram, ri.getAmount().getGram(), 1e-6);
     }
 
     @Test
     public void creatingRecipeIngredientVolumeTest(){
+        long id = 13579L;
         String ingredientName = "Water";
         double milliliter = 100.;
-        Ingredient water = new SimpleIngredient(ingredientName);
+        Ingredient water = new SimpleIngredient(ingredientName, id);
         Volume weight = new Volume(milliliter);
-        RecipeIngredient<Volume> ri = new RecipeIngredient<>(water, weight);
+        RecipeIngredient<Volume> ri = new RecipeIngredient<>(water, weight, id);
         assertEquals(ingredientName, ri.getIngredient().getName());
         assertEquals(milliliter, ri.getAmount().getMilliliter(), 1e-6);
     }
 
     @Test
     public void copyRecipeIngredientTest(){
+        long id = 13579L;
         String ingredientName = "Sugar";
         double gram = 100.;
-        Ingredient sugar = new SimpleIngredient(ingredientName);
+        Ingredient sugar = new SimpleIngredient(ingredientName, id);
         Mass weight = new Mass(gram);
-        RecipeIngredient<Mass> ri = new RecipeIngredient<>(sugar, weight);
+        RecipeIngredient<Mass> ri = new RecipeIngredient<>(sugar, weight, id);
         RecipeIngredient<Mass> riCopy = ri.copy();
         assertEquals(ri.getIngredient().getName(), riCopy.getIngredient().getName());
         assertEquals(ri.getAmount().getGram(), riCopy.getAmount().getGram() ,1e-6);

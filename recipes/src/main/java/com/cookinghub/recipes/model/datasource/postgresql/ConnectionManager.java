@@ -31,6 +31,5 @@ public class ConnectionManager {
         String connectionUrl = String.format(CONNECTION_URL, host, port, databaseName, user, password);
         Connection conn = DriverManager.getConnection(connectionUrl);
         return conn;
-
     }
 }

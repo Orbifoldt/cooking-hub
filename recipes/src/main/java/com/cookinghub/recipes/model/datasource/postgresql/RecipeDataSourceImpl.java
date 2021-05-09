@@ -107,11 +107,14 @@ public class RecipeDataSourceImpl implements RecipeDataSource {
             pst.setString(1, recipe.getName());
             pst.setLong(2, recipe.getId());
             pst.execute();
+            for(RecipeIngredient<?> recipeIngredient : recipe.getIngredients()){
+                updateRecipeIngredient(recipeIngredient);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        for(RecipeIngredient<? extends Unit> recipeIngredient : recipe.getIngredientList()){
+        for(RecipeIngredient<? extends Unit> recipeIngredient : recipe.getIngredients()){
             updateRecipeIngredient(recipeIngredient);
         }
     }

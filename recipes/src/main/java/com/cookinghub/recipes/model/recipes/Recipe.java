@@ -7,6 +7,7 @@ import java.util.List;
  */
 public interface Recipe {
 
+    void setName(String name);
     String getName();
 
     default String getLongName(){
@@ -15,13 +16,15 @@ public interface Recipe {
 
     long getId();
     
-    List<RecipeIngredient<? extends Unit>> getIngredientList();
+    List<RecipeIngredient<? extends Unit>> getIngredients();
     RecipeIngredient<? extends Unit> getIngredient(int index);
-    void addIngredient(RecipeIngredient<? extends Unit> recipeIngredient, int index);
+    boolean addIngredient(RecipeIngredient<? extends Unit> recipeIngredient, int index);
     void addIngredient(RecipeIngredient<? extends Unit> recipeIngredient);
     
-    List<String> getInstructions();
-    String getInstruction(int index);
-    void addInstruction(String instruction, int index);
+    List<RecipeInstruction> getInstructions();
+    RecipeInstruction getInstruction(int index);
+    boolean addInstruction(RecipeInstruction instruction, int index);
+    void addInstruction(RecipeInstruction instruction);
+    boolean addInstruction(String instruction, int index);
     void addInstruction(String instruction);
 }

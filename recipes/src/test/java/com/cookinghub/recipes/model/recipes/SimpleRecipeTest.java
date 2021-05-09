@@ -2,6 +2,7 @@ package com.cookinghub.recipes.model.recipes;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,40 +15,43 @@ public class SimpleRecipeTest {
     @Test
     public void emptySimpleRecipeTest(){
         String recipeName = "Lasagna";
-        SimpleRecipe emptyRecipe = new SimpleRecipe(recipeName);
+        long id = 99L;
+        SimpleRecipe emptyRecipe = new SimpleRecipe(recipeName, id);
         assertEquals(recipeName, emptyRecipe.getName());
+        assertEquals(id, emptyRecipe.getId());
     }
 
     @Test
     public void addingIngredientsSimpleRecipeTest(){
-        Ingredient onionIngredient = new SimpleIngredient("Onion");
+        long recipeId = 1L;
+        Ingredient onionIngredient = new SimpleIngredient("Onion", recipeId);
         Mass onionMass = new Mass(250.);
-        RecipeIngredient<Mass> onion = new RecipeIngredient<>(onionIngredient, onionMass);
+        RecipeIngredient<Mass> onion = new RecipeIngredient<>(onionIngredient, onionMass, recipeId);
 
-        Ingredient broccoliIngredient = new SimpleIngredient("Brocolli");
+        Ingredient broccoliIngredient = new SimpleIngredient("Brocolli", recipeId);
         Unit broccoliAmount = new Mass(400.f);
-        RecipeIngredient<Unit> broccoli = new RecipeIngredient<>(broccoliIngredient, broccoliAmount);
+        RecipeIngredient<Unit> broccoli = new RecipeIngredient<>(broccoliIngredient, broccoliAmount, recipeId);
 
-        Ingredient stockIngredient = new SimpleIngredient("Vegetable stock");
+        Ingredient stockIngredient = new SimpleIngredient("Vegetable stock", recipeId);
         Volume stockVolume = Volume.fromCups(16);
-        RecipeIngredient<Volume> stock = new RecipeIngredient<>(stockIngredient, stockVolume);
+        RecipeIngredient<Volume> stock = new RecipeIngredient<>(stockIngredient, stockVolume, recipeId);
         
         String recipeName = "Soup";
         List<RecipeIngredient<? extends Unit>> initialIngredientList = Arrays.asList(onion);
-        SimpleRecipe soupRecipe = new SimpleRecipe(recipeName, initialIngredientList);
-        assertEquals("Expected the ingredient list to have 1 element", 1, soupRecipe.getIngredientList().size());
+        SimpleRecipe soupRecipe = new SimpleRecipe(recipeName, recipeId,initialIngredientList, new ArrayList<RecipeInstruction>());
+        assertEquals("Expected the ingredient list to have 1 element", 1, soupRecipe.getIngredients().size());
         assertEquals(onion.getIngredient().getName(), soupRecipe.getIngredient(0).getIngredient().getName());
         assertEquals(onion.getAmount().getValue(), soupRecipe.getIngredient(0).getAmount().getValue(), delta);
 
         soupRecipe.addIngredient(broccoli);
-        assertEquals("Expected the ingredient list to have 2 element", 2, soupRecipe.getIngredientList().size());
+        assertEquals("Expected the ingredient list to have 2 element", 2, soupRecipe.getIngredients().size());
         assertEquals(onion.getIngredient().getName(), soupRecipe.getIngredient(0).getIngredient().getName());
         assertEquals(onion.getAmount().getValue(), soupRecipe.getIngredient(0).getAmount().getValue(), delta);
         assertEquals(broccoli.getIngredient().getName(), soupRecipe.getIngredient(1).getIngredient().getName());
         assertEquals(broccoli.getAmount().getValue(), soupRecipe.getIngredient(1).getAmount().getValue(), delta);
 
         soupRecipe.addIngredient(stock, 1);
-        assertEquals("Expected the ingredient list to have 3 element", 3, soupRecipe.getIngredientList().size());
+        assertEquals("Expected the ingredient list to have 3 element", 3, soupRecipe.getIngredients().size());
         assertEquals(onion.getIngredient().getName(), soupRecipe.getIngredient(0).getIngredient().getName());
         assertEquals(onion.getAmount().getValue(), soupRecipe.getIngredient(0).getAmount().getValue(), delta);
         assertEquals(stock.getIngredient().getName(), soupRecipe.getIngredient(1).getIngredient().getName());
@@ -60,22 +64,23 @@ public class SimpleRecipeTest {
 
     @Test
     public void addingInstructionsSimpleRecipeTest(){
-        RecipeIngredient<Unit> onion = new RecipeIngredient<>(new SimpleIngredient("Onion"), new Mass(250.));
         String recipeName = "Soup";
+        long recipeId = 15L;
+        RecipeIngredient<Unit> onion = new RecipeIngredient<>(new SimpleIngredient("Onion", recipeId), new Mass(250.), recipeId);
         List<RecipeIngredient<?>> initialIngredientList = Arrays.asList(onion);
-        
+
         String step1 = "This is step 1", step2 = "The second step is this", step3 = "yet another one", step4 = "and done.";
-        List<String> instructions = Arrays.asList(step1, step3);
-        SimpleRecipe soupRecipe = new SimpleRecipe(recipeName, initialIngredientList, instructions);
+        List<RecipeInstruction> instructions = Arrays.asList(new RecipeInstruction(recipeId, 0, step1), new RecipeInstruction(recipeId, 1, step3));
+        SimpleRecipe soupRecipe = new SimpleRecipe(recipeName, recipeId,initialIngredientList, instructions);
         soupRecipe.addInstruction(step4);
         soupRecipe.addInstruction(step2, 1);
         // System.out.println(soupRecipe);
 
         assertEquals("Expected to find 4 instructions in total", 4, soupRecipe.getInstructions().size());
-        assertEquals(step1, soupRecipe.getInstruction(0));
-        assertEquals(step2, soupRecipe.getInstruction(1));
-        assertEquals(step3, soupRecipe.getInstruction(2));
-        assertEquals(step4, soupRecipe.getInstruction(3));
+        assertEquals(step1, soupRecipe.getInstruction(0).getInstruction());
+        assertEquals(step2, soupRecipe.getInstruction(1).getInstruction());
+        assertEquals(step3, soupRecipe.getInstruction(2).getInstruction());
+        assertEquals(step4, soupRecipe.getInstruction(3).getInstruction());
     }
     
 }
