@@ -1,25 +1,30 @@
 package com.cookinghub.recipes.service.serviceImpl;
 
 import com.cookinghub.recipes.model.datasource.RecipeDataSource;
-import com.cookinghub.recipes.model.datasource.postgresql.RecipeDataSourceImpl;
+import com.cookinghub.recipes.model.datasource.databases.RecipeDataSourceImpl;
 import com.cookinghub.recipes.model.recipes.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.List;
-
+@Component
 public class StoreStubInfo {
 
-    public static void storeStubInfoPostgreSql(){
-        RecipeDataSource dataSource = new RecipeDataSourceImpl();
+    @Autowired
+    RecipeDataSource dataSource;
 
+    public long storeStubInfo1() {
         Recipe recipe = dataSource.storeNewRecipe();
         long id = recipe.getId();
         Recipe recipe1 = new RecipeServiceImplStub().getSoupRecipe(id);
         dataSource.updateRecipe(recipe1);
+        return id;
+    }
 
-        recipe = dataSource.storeNewRecipe();
-        id = recipe.getId();
+    public long storeStubInfo2(){
+        Recipe recipe = dataSource.storeNewRecipe();
+        long id = recipe.getId();
         Recipe recipe2 = new RecipeServiceImplStub().getCakeRecipe(id);
         dataSource.updateRecipe(recipe2);
+        return id;
     }
 }

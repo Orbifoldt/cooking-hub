@@ -2,10 +2,12 @@ package com.cookinghub.recipes.service.serviceImpl;
 
 import com.cookinghub.recipes.model.recipes.*;
 import com.cookinghub.recipes.service.RecipeService;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
 
+@Component
 public class RecipeServiceImplStub implements RecipeService {
 
 
@@ -26,6 +28,31 @@ public class RecipeServiceImplStub implements RecipeService {
             recipe = new SimpleRecipe("New Empty Recipe", id);
         }
         return recipe;
+    }
+
+    @Override
+    public long createRecipe() {
+        return 0;
+    }
+
+    @Override
+    public void updateRecipe(Recipe recipe) {
+
+    }
+
+    @Override
+    public Recipe readRecipe(long id) {
+        return null;
+    }
+
+    @Override
+    public void deleteRecipe(Recipe recipe) {
+
+    }
+
+    @Override
+    public String storeStubRecipes() {
+        return null;
     }
 
     public Recipe getSoupRecipe(long id){

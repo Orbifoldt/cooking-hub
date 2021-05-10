@@ -1,8 +1,10 @@
-package com.cookinghub.recipes.model.datasource.postgresql;
+package com.cookinghub.recipes.model.datasource.databases;
 
 import com.cookinghub.recipes.model.datasource.RecipeDataSource;
 import com.cookinghub.recipes.model.recipes.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,32 +12,33 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.LongFunction;
 
+@Component
 public class RecipeDataSourceImpl implements RecipeDataSource {
 
     @Autowired
     private ConnectionManager connectionManager;
 
-    private final String DEFAULT_NAME = "NO_NAME";
+    protected final String DEFAULT_NAME = "NO_NAME";
 
-    private final String INSERT_NEW_RECIPE_AND_RETURN_ID = "INSERT INTO recipes (name) VALUES (?) RETURNING id";
-    private final String INSERT_NEW_INGREDIENT_AND_RETURN_ID = "INSERT INTO ingredients (name) VALUES (?) RETURNING id";
-    private final String INSERT_NEW_RECIPE_INGREDIENT = "INSERT INTO recipe_ingredients (recipe_id, ingredient_id, ordinal, amount, type) VALUES (?, ?, ?, ?, CAST(? AS unit_type))";
-    private final String INSERT_NEW_RECIPE_INSTRUCTION = "INSERT INTO instructions (recipe_id, ordinal, instruction) VALUES (?,?,?)";
+    protected final String INSERT_NEW_RECIPE_AND_RETURN_ID = "INSERT INTO recipes (name) VALUES (?) RETURNING id";
+    protected final String INSERT_NEW_INGREDIENT_AND_RETURN_ID = "INSERT INTO ingredients (name) VALUES (?) RETURNING id";
+    protected final String INSERT_NEW_RECIPE_INGREDIENT = "INSERT INTO recipe_ingredients (recipe_id, ingredient_id, ordinal, amount, type) VALUES (?, ?, ?, ?, CAST(? AS unit_type))";
+    protected final String INSERT_NEW_RECIPE_INSTRUCTION = "INSERT INTO instructions (recipe_id, ordinal, instruction) VALUES (?,?,?)";
 
-    private final String UPDATE_RECIPE = "UPDATE recipes SET name=? WHERE id=?";
-    private final String UPDATE_INGREDIENT = "UPDATE ingredients SET name=?, density=? WHERE id=?";
-    private final String UPDATE_RECIPE_INGREDIENT = "UPDATE recipe_ingredients SET ingredient_id=?, amount=?, type=CAST(? AS unit_type), notes=? WHERE recipe_id=? AND ordinal=?";
-    private final String UPDATE_RECIPE_INSTRUCTION = "UPDATE instructions SET ordinal=?, instruction=? WHERE recipe_id=?";
+    protected final String UPDATE_RECIPE = "UPDATE recipes SET name=? WHERE id=?";
+    protected final String UPDATE_INGREDIENT = "UPDATE ingredients SET name=?, density=? WHERE id=?";
+    protected final String UPDATE_RECIPE_INGREDIENT = "UPDATE recipe_ingredients SET ingredient_id=?, amount=?, type=CAST(? AS unit_type), notes=? WHERE recipe_id=? AND ordinal=?";
+    protected final String UPDATE_RECIPE_INSTRUCTION = "UPDATE instructions SET ordinal=?, instruction=? WHERE recipe_id=?";
 
-    private final String GET_RECIPE = "SELECT name, created_at FROM recipes WHERE id=?";
-    private final String GET_INGREDIENT = "SELECT name, density FROM ingredients WHERE id=?";
-    private final String GET_RECIPE_INGREDIENTS = "SELECT ordinal, ingredient_id, amount, type, notes FROM recipe_ingredients WHERE recipe_id=?";
-    private final String GET_RECIPE_INSTRUCTIONS = "SELECT ordinal, instruction FROM instructions WHERE recipe_id=?";
+    protected final String GET_RECIPE = "SELECT name, created_at FROM recipes WHERE id=?";
+    protected final String GET_INGREDIENT = "SELECT name, density FROM ingredients WHERE id=?";
+    protected final String GET_RECIPE_INGREDIENTS = "SELECT ordinal, ingredient_id, amount, type, notes FROM recipe_ingredients WHERE recipe_id=?";
+    protected final String GET_RECIPE_INSTRUCTIONS = "SELECT ordinal, instruction FROM instructions WHERE recipe_id=?";
 
-    private final String DELETE_RECIPE = "DELETE FROM recipes WHERE id=?";
-    private final String DELETE_INGREDIENT = "DELETE FROM ingredients WHERE id=?";
-    private final String DELETE_RECIPE_INGREDIENT = "DELETE FROM recipe_ingredients WHERE recipe_id=? AND ordinal=?";
-    private final String DELETE_RECIPE_INSTRUCTION = "DELETE FROM instructions WHERE recipe_id=? AND ordinal=?";
+    protected final String DELETE_RECIPE = "DELETE FROM recipes WHERE id=?";
+    protected final String DELETE_INGREDIENT = "DELETE FROM ingredients WHERE id=?";
+    protected final String DELETE_RECIPE_INGREDIENT = "DELETE FROM recipe_ingredients WHERE recipe_id=? AND ordinal=?";
+    protected final String DELETE_RECIPE_INSTRUCTION = "DELETE FROM instructions WHERE recipe_id=? AND ordinal=?";
 
     @Override
     public Recipe getRecipe(long id) {
@@ -107,15 +110,25 @@ public class RecipeDataSourceImpl implements RecipeDataSource {
             pst.setString(1, recipe.getName());
             pst.setLong(2, recipe.getId());
             pst.execute();
-            for(RecipeIngredient<?> recipeIngredient : recipe.getIngredients()){
-                updateRecipeIngredient(recipeIngredient);
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        for(RecipeIngredient<? extends Unit> recipeIngredient : recipe.getIngredients()){
-            updateRecipeIngredient(recipeIngredient);
+        // TODO: make this not so incredibly awful
+        for(RecipeIngredient<?> recipeIngredient : recipe.getIngredients()){
+            try {
+                storeNewRecipeIngredient(recipe.getId(), recipeIngredient.getIngredient().getId(), recipeIngredient.getOrdinal(), recipeIngredient.getAmount().getValue(), recipeIngredient.getAmount().getUnitType());
+            } finally {
+                updateRecipeIngredient(recipeIngredient);
+            }
+        }
+        // TODO: make this not so incredibly awful
+        for(RecipeInstruction instruction : recipe.getInstructions()){
+            try {
+                storeNewRecipeInstruction(recipe.getId(), instruction.getOrdinal(), instruction.getInstruction());
+            } finally {
+                updateRecipeInstruction(instruction);
+            }
         }
     }
 
@@ -204,7 +217,7 @@ public class RecipeDataSourceImpl implements RecipeDataSource {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -259,7 +272,7 @@ public class RecipeDataSourceImpl implements RecipeDataSource {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
+            return new ArrayList<>();
         }
     }
 

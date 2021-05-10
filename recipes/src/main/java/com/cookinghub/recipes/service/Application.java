@@ -7,16 +7,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.cookinghub.recipes.controller"} )
+@ComponentScan(basePackages = {"com.cookinghub.recipes.controller", "com.cookinghub.recipes.service", "com.cookinghub.recipes.model.datasource.*"} )
 public class Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
-	}
-
-	@Bean
-	public RecipeService recipeService(){
-		return new RecipeServiceImplStub();
 	}
 
 }

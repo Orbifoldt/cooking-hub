@@ -25,6 +25,8 @@ public final class RecipeIngredient<U extends Unit> implements Comparable<Recipe
         this.ordinal = ordinal;
     }
 
+
+
     public Ingredient getIngredient(){
         return ingredient;
     }

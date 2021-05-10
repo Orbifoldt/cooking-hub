@@ -1,5 +1,6 @@
-package com.cookinghub.recipes.model.datasource.postgresql;
+package com.cookinghub.recipes.model.datasource.databases;
 
+import com.cookinghub.recipes.model.datasource.databases.postgresql.ConnectionManagerPostgres;
 import com.cookinghub.recipes.model.recipes.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +18,7 @@ import static org.junit.Assert.*;
 public class RecipeDataSourceImplTest {
 
     @Spy
-    private ConnectionManager connectionManager = new ConnectionManager();
+    private ConnectionManager connectionManager = new ConnectionManagerPostgres();
 
     @InjectMocks
     private RecipeDataSourceImpl recipeDataSource;
