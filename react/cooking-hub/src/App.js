@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Recipe from './Recipe';
+// import Recipe from './Recipe';
+import Recipe from './recipes/Recipe';
+import Header from './common/Header';
 
 // function App() {
 //   return (
@@ -39,9 +41,9 @@ class App extends Component {
   render() {
     const {groups, isLoading} = this.state;
 
-    if (isLoading) {
-      return <p>Loading...</p>;
-    }
+    // if (isLoading) {
+    //   return <p>Loading...</p>;
+    // }
 
     console.log(groups)
 
@@ -52,13 +54,15 @@ class App extends Component {
 
     return (
       <div className="App">
-        <header className="App-header">
+        {/* <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <div className="App-intro">
+          <div className="App-intro"> */}
             {/* <div key="yeppers"> {groups.recipe}</div> */}
-            <Recipe />
-          </div>
-        </header>
+            
+          {/* </div>
+        </header> */}
+        <Header />
+        <Recipe />
       </div>
     );
   }

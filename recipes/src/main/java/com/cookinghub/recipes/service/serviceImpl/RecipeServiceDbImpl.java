@@ -5,8 +5,9 @@ import com.cookinghub.recipes.model.recipes.Recipe;
 import com.cookinghub.recipes.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class RecipeServiceDbImpl implements RecipeService {
 
     @Autowired

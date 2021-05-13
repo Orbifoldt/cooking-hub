@@ -3,11 +3,12 @@ package com.cookinghub.recipes.service.serviceImpl;
 import com.cookinghub.recipes.model.recipes.*;
 import com.cookinghub.recipes.service.RecipeService;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
 
-@Component
+@Service
 public class RecipeServiceImplStub implements RecipeService {
 
 

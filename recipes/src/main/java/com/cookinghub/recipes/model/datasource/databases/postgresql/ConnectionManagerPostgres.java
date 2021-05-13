@@ -2,6 +2,7 @@ package com.cookinghub.recipes.model.datasource.databases.postgresql;
 
 import com.cookinghub.recipes.model.datasource.databases.ConnectionManager;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
@@ -9,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 @Component("postgresql")
+@Profile("!dev")
 public class ConnectionManagerPostgres implements ConnectionManager {
 
     @Value("${recipes.datasource.postgres.host}")

@@ -1,0 +1,20 @@
+.Header {
+    width: 100%;
+    padding: 1em;
+    background-color: darkslateblue;
+    color: lightcyan;
+}
+
+.logo {
+    display: inline-table;
+}
+
+.nav-grid {
+    display: inline-block;
+    background-color: aqua;
+}
+
+.nav-cell {
+    display: inline-block;
+    background-color: brown;
+}

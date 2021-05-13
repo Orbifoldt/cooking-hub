@@ -5,8 +5,9 @@ import com.cookinghub.recipes.model.datasource.databases.RecipeDataSourceImpl;
 import com.cookinghub.recipes.model.recipes.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class StoreStubInfo {
 
     @Autowired
